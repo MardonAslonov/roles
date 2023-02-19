@@ -1,3 +1,0 @@
-1. Ishchi mijozning ma'lumotlarini hosil qilsin (address, name, used_product)
-2. Ishchi roli bilan kirishi. (Admin ishchiga login parol beradi) Middleware
-3. 
