@@ -31,6 +31,7 @@ class UserController extends Controller
         // $user->sinior_id=$request->sinior_id;
         // $user->skilad_id=$request->skilad_id;
         $user->password=bcrypt($request->password);
+        $user->role_id=$request->role_id;
         $user->save();
        return 'User created successfully';
 

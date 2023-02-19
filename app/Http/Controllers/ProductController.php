@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -19,6 +20,13 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
         return ($product);
+
+        if(Auth::user()->role_id=='1'){
+            // return $next($request);
+            return response()->json(['error'=>'You are Admin'], 401);
+        }else{
+            return response()->json(['error'=>'You are not Admin'], 401);
+        };
     }
 
     // public function show($id)
