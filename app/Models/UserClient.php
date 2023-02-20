@@ -9,5 +9,5 @@ class UserClient extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','address','used_product'];
+    protected $fillable = ['name','address','used_product','commit'];
 }

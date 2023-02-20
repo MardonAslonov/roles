@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleMiddleware
+class AccountantMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,10 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        if(Auth::user()->role_id=='1'){
-            // return $next($request);
-            return response()->json(['error'=>'You are Admin'], 401);
+        if(Auth::user()->role_id=='4'){
+            return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Admin'], 401);
+            return response()->json(['error'=>'You are not Accountant'], 401);
         };
-
     }
 }

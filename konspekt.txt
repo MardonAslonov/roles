@@ -1,0 +1,7 @@
+1. Ishchi mijozning ma'lumotlarini hosil qilsin (address, name, used_product)
+2. Ishchi roli bilan kirishi. (Admin ishchiga login parol beradi) Middleware
+3. Chief uchun rol. Director, Bug'alter uchun rol.
+4. Chiefga kelgan ma'lumotlar
+5. Chief commit yoza olsin
+6. Umumiy token
+7. Worker documentni CRUD qilishi
