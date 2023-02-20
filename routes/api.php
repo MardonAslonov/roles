@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChiefController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -42,16 +43,25 @@ Route::group(['middleware'=>["auth:api"]], function(){
     Route::group(['middleware'=>["chief:api"]], function(){
 
         Route::post('chief/client/index', [ChiefController::class, 'index']);
+        Route::post('chief/client/abort', [ChiefController::class, 'abort']);
+        Route::post('chief/client/send', [ChiefController::class, 'send']);
 
     });
 
+    Route::group(['director'=>["director:api"]], function(){
 
-    Route::post('chief', [UserClientController::class, 'chief'])->middleware('chief:api');
-    Route::post('director', [UserClientController::class, 'director'])->middleware('director:api');
-    Route::post('accountant', [UserClientController::class, 'accountant'])->middleware('accountant:api');
+        Route::post('director/client/index', [DirectorController::class, 'index']);
+        Route::post('director/client/abort', [DirectorController::class, 'abort']);
+        Route::post('director/client/send', [DirectorController::class, 'send']);
 
+    });
 
-    Route::post('product/create', [ProductController::class, 'store']);
-    // Route::post('user/create', [UserController::class, 'create']);
+    Route::group(['accountant'=>["accountant:api"]], function(){
+
+        Route::post('accountant/client/index', [AccountantController::class, 'index']);
+        Route::post('director/client/abort', [AccountantController::class, 'abort']);
+        Route::post('director/client/send', [AccountantController::class, 'send']);
+
+    });
 
 });

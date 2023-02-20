@@ -57,11 +57,7 @@ class UserClientController extends Controller
 
 
 
-    public function chief(Request $request)
-    {
-        $clients = UserClient::all();
-        return $clients;
-    }
+    
 
     public function director(Request $request)
     {

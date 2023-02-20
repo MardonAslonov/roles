@@ -3,54 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chief;
+use App\Models\Director;
+use App\Models\UserClient;
 use Illuminate\Http\Request;
-
 class ChiefController extends Controller
 {
-    // public function store(Request $request)
-    // {
-    //     $client = UserClient::create($request->all());
-    //     return ($client);
-    // }
-
-    // public function show(Request $request)
-    // {
-    //     $client = UserClient::findOrFail($request->id);
-    //     return ($client);
-    // }
 
     public function index(Request $request)
     {
         return Chief::all();
     }
 
-    // public function destroy(Request $request)
-    // {
-    //     UserClient::findOrFail($request->id)->delete();
-    //     return 'Delete done successful';
-    // }
+    public function abort(Request $request)
+    {
+        $clientChief = Chief::findOrFail($request->id);
+        $clientworker = new UserClient;
+        $clientworker -> address = $clientChief -> address;
+        $clientworker -> name = $clientChief -> name;
+        $clientworker -> used_product = $clientChief -> used_product;
+        $clientworker -> commit = $request -> commit;
+        $clientworker->save();
+        $clientChief->delete();
+        return ([
+            'Abort done successful'
+        ]);
+    }
 
-    // public function update(Request $request)
-    // {
-    //     $client = UserClient::findOrFail($request->id);
-    //     $client->update($request->all());
-    //     return $client;
-
-    // }
-
-    // public function send(Request $request)
-    // {
-    //     $client = UserClient::findOrFail($request->id);
-    //     $client->worker_name = $request->user()->name;
-    //     $clientChief = new  Chief;
-    //     $clientChief->name = $client->name;
-    //     $clientChief->address = $client->address;
-    //     $clientChief->used_product = $client->used_product;
-    //     $clientChief->worker_name = $client->worker_name;
-    //     $clientChief->commit = $client->commit;
-    //     $clientChief->save();
-    //     UserClient::findOrFail($request->id)->delete();
-    //     return 'client dokument send to chief';
-    // }
-
+    public function send(Request $request)
+    {
+        $clientChief = Chief::findOrFail($request->id);
+        $clientChief->chief_name = $request->user()->name;
+        $clientDirector = new Director;
+        $clientDirector->name = $clientChief->name;
+        $clientDirector->address = $clientChief->address;
+        $clientDirector->used_product = $clientChief->used_product;
+        $clientDirector->chief_name = $clientChief->chief_name;
+        $clientDirector->save();
+        $clientChief->delete();
+        return 'client dokument send to director successful';
+    }
 }
