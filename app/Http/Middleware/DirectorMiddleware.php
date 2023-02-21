@@ -19,7 +19,7 @@ class DirectorMiddleware
         if(Auth::user()->role_id=='3'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Director'], 401);
+            return response()->json(['error'=>'You are not director'], 401);
         };
     }
 }

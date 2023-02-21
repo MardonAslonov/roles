@@ -24,10 +24,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('user/create', [UserController::class, 'create']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware'=>["auth:api"]], function(){
+
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('user/create', [UserController::class, 'create']);
+    Route::post('user/delete', [UserController::class, 'delete']);
+    Route::post('user/index', [UserController::class, 'index']);
+
+
+
 
     Route::group(['middleware'=>["worker:api"]], function(){
 
@@ -48,7 +55,7 @@ Route::group(['middleware'=>["auth:api"]], function(){
 
     });
 
-    Route::group(['director'=>["director:api"]], function(){
+    Route::group(['middleware'=>["director:api"]], function(){
 
         Route::post('director/client/index', [DirectorController::class, 'index']);
         Route::post('director/client/abort', [DirectorController::class, 'abort']);
@@ -56,11 +63,11 @@ Route::group(['middleware'=>["auth:api"]], function(){
 
     });
 
-    Route::group(['accountant'=>["accountant:api"]], function(){
+    Route::group(['middleware'=>["accountant:api"]], function(){
 
         Route::post('accountant/client/index', [AccountantController::class, 'index']);
-        Route::post('director/client/abort', [AccountantController::class, 'abort']);
-        Route::post('director/client/send', [AccountantController::class, 'send']);
+        Route::post('accountant/client/abort', [AccountantController::class, 'abort']);
+        Route::post('accountant/client/send', [AccountantController::class, 'send']);
 
     });
 

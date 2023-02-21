@@ -19,7 +19,7 @@ class WorkerMiddleware
         if(Auth::user()->role_id=='1'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Admin'], 401);
+            return response()->json(['error'=>'You are not worker'], 401);
         };
     }
 }

@@ -19,7 +19,7 @@ class AccountantMiddleware
         if(Auth::user()->role_id=='4'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Accountant'], 401);
+            return response()->json(['error'=>'You are not accountant'], 401);
         };
     }
 }

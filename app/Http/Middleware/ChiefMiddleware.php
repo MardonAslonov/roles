@@ -19,7 +19,7 @@ class ChiefMiddleware
         if(Auth::user()->role_id=='2'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Chief'], 401);
+            return response()->json(['error'=>'You are not chief'], 401);
         };
     }
 }
