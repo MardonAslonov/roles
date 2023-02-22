@@ -22,7 +22,10 @@ class UserClientController extends Controller
 
     public function index(Request $request)
     {
-        return UserClient::all();
+        // return UserClient::all()->with('products');
+
+        $categoryies = UserClient::with('products')->get();
+        return $categoryies;
     }
 
     public function destroy(Request $request)

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('client_id');
             $table->string('name');
             $table->string('amount');
             $table->string('cost');

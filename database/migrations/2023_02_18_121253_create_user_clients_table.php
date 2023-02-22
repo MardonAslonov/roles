@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->string('name');
-            $table->string('used_product');
             $table->string('commit')->nullable();
             $table->timestamps();
         });

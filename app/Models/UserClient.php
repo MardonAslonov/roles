@@ -10,4 +10,10 @@ class UserClient extends Model
     use HasFactory;
 
     protected $fillable = ['name','address','used_product','commit'];
+
+    public function products(){
+        return $this->hasMany(Product::class,'client_id','id');
+    }
+
+
 }
