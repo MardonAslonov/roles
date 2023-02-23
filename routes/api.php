@@ -4,7 +4,9 @@ use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChiefController;
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TaesController;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -25,9 +27,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::post('product', [ProductController::class, 'store']);
-
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware'=>["auth:api"]], function(){
@@ -36,7 +35,11 @@ Route::group(['middleware'=>["auth:api"]], function(){
     Route::post('user/create', [UserController::class, 'create']);
     Route::post('user/delete', [UserController::class, 'delete']);
     Route::post('user/index', [UserController::class, 'index']);
+    Route::get('user/show', [UserController::class, 'show']);
 
+
+
+    Route::post('document/create', [DocumentController::class, 'add']);
 
 
 

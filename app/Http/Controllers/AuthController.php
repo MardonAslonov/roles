@@ -70,8 +70,7 @@ class AuthController extends Controller
 
         $request->user()->tokens()->delete();
 
-        return response([
-            'logged out'
-        ]);
+        return response()->json(['success' => 'ok']);
+
     }
 }

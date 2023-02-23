@@ -2,34 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Database\QueryException;
+// use Doctrine\DBAL\Query\QueryException;
 class UserController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
-    return   User::limit(10)->get();
+        return User::paginate($request->per_page);
     }
 
 
     public function show(Request $request)
     {
-        return  User::where('id',$request->id)->first();
+        return User::where('id', $request->id)->first();
     }
 
-
-    public function   create(Request $request)
+    public function create(UserCreateRequest $request)
     {
 
-        $user= new User();
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->password=bcrypt($request->password);
-        $user->role_id=$request->role_id;
-        $user->save();
-       return 'User created successfully';
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->input('password'));
+            $user->role_id = $request->input('role_id');
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            return response()->json(
+                ['error' =>
+                    [
+                        'message' => $e->getMessage()
+                    ]
+                ]
+            );
+        }
+        return response()->json(["success"=>"ok"]);
 
     }
 
