@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
 use App\Models\DocumentProduct;
 use Illuminate\Database\QueryException;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
-    public function add(Request $request)
+    public function add(DocumentRequest $request)
     {
         DB::beginTransaction();
         try {

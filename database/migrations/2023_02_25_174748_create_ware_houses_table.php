@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chiefs', function (Blueprint $table) {
+        Schema::create('ware_houses', function (Blueprint $table) {
             $table->id();
-            $table->string('worker_name')->nullable();
-            $table->string('address');
-            $table->string('name');
-            $table->string('used_product');
-            $table->string('commit')->nullable();
+            $table->string('code');
+            $table->string('title');
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->foreign('type_id')
+                ->references('id')
+                ->on('types')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chiefs');
+        Schema::dropIfExists('ware_houses');
     }
 };

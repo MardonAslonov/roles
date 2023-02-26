@@ -5,8 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChiefController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TaesController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -23,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('user/create', [UserController::class, 'create']);
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -30,20 +33,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware'=>["auth:api"]], function(){
-
+    Route::post('type/create', [TypeController::class, 'create']);
+    Route::get('type/delete', [TypeController::class, 'delete']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/create', [UserController::class, 'create']);
     Route::post('user/delete', [UserController::class, 'delete']);
     Route::post('user/index', [UserController::class, 'index']);
     Route::get('user/show', [UserController::class, 'show']);
-
-
+    Route::post('user/update', [UserController::class, 'update']);
 
     Route::post('document/create', [DocumentController::class, 'add']);
 
 
 
-    Route::group(['middleware'=>["worker:api"]], function(){
+    Route::group(['middleware'=>["workman:api"]], function(){
 
         Route::post('user/client/create', [UserClientController::class, 'store']);
         Route::get('user/client/show', [UserClientController::class, 'show']);

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class WorkerMiddleware
+class WorkmanMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class WorkerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id=='1'){
+        if(Auth::user()->role_id=='2'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not worker'], 401);
+            return response()->json(['error'=>'You are not Workman'], 401);
         };
     }
 }

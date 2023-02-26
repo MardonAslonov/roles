@@ -16,7 +16,7 @@ class DirectorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id=='3'){
+        if(Auth::user()->role_id=='4'){
             return $next($request);
         }else{
             return response()->json(['error'=>'You are not director'], 401);

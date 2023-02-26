@@ -65,18 +65,4 @@ class UserClientController extends Controller
 
     }
 
-
-
-
-
-
-    public function director(Request $request)
-    {
-        return 'You are director';
-    }
-
-    public function accountant(Request $request)
-    {
-        return 'You are accountant';
-    }
 }

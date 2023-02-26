@@ -16,10 +16,10 @@ class ChiefMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id=='2'){
+        if(Auth::user()->role_id=='3'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not chief'], 401);
+            return response()->json(['error'=>'You are not Chief'], 401);
         };
     }
 }

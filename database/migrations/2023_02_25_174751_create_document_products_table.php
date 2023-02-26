@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('document_products', function (Blueprint $table) {
             $table->id();
-            $table->string('document_id');
+            $table->unsignedBigInteger('document_id');
             $table->string('title');
             $table->string('measure');
-            $table->string('price');
-            $table->string('count');
+            $table->integer('price');
+            $table->integer('count');
+            $table->foreign('document_id')
+                ->references('id')
+                ->on('documents')
+                ->onDelete('cascade');
             $table->timestamps();
-
         });
     }
 
