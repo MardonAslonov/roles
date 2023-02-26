@@ -8,6 +8,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WareHouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware'=>["auth:api"]], function(){
-    Route::post('type/create', [TypeController::class, 'create']);
-    Route::get('type/delete', [TypeController::class, 'delete']);
+    Route::group(['prefix' => 'type'], function () {
+        Route::post('create', [TypeController::class, 'create']);
+        Route::get('delete', [TypeController::class, 'delete']);
+        Route::get('show', [TypeController::class, 'show']);
+        Route::post('update', [TypeController::class, 'update']);
+    });
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::post('create', [WareHouseController::class, 'create']);
+        Route::get('delete', [WareHouseController::class, 'delete']);
+        Route::get('show', [WareHouseController::class, 'show']);
+        Route::post('update', [WareHouseController::class, 'update']);
+    });
+
+
+
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/create', [UserController::class, 'create']);
     Route::post('user/delete', [UserController::class, 'delete']);
@@ -43,8 +57,6 @@ Route::group(['middleware'=>["auth:api"]], function(){
     Route::post('user/update', [UserController::class, 'update']);
 
     Route::post('document/create', [DocumentController::class, 'add']);
-
-
 
     Route::group(['middleware'=>["workman:api"]], function(){
 

@@ -19,4 +19,16 @@ class TypeController extends Controller
         $type->delete();
         return response()->json(['success'=>'ok']);
     }
+
+    public function show(Request $request)
+    {
+        $type = Type::findOrFail($request->id);
+        return response()->json([$type]);
+    }
+
+    public function update(Request $request)
+    {
+        Type::findOrFail($request->id)->update($request->all());
+        return response()->json(['success'=>'ok']);
+    }
 }
