@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Type;
 use Illuminate\Http\Request;
-
 class TypeController extends Controller
 {
     public function create(Request $request)
@@ -30,5 +29,10 @@ class TypeController extends Controller
     {
         Type::findOrFail($request->id)->update($request->all());
         return response()->json(['success'=>'ok']);
+    }
+
+    public function list(Request $request)
+    {
+        return Type::paginate($request->per_page);
     }
 }
