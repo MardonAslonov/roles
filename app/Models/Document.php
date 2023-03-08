@@ -10,7 +10,7 @@ class Document extends Model
     use HasFactory;
 
     protected $table = 'documents';
-    protected $fillable = ['name','address','commit','role_id','user_id'];
+    protected $fillable = ['name','address','commit','role_id','user_id','status'];
 
     public function products(){
         return $this->hasMany(DocumentProduct::class,'document_id','id');

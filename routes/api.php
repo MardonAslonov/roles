@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChiefController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SendDocumentController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\UserController;
@@ -40,34 +41,32 @@ Route::group(['middleware'=>["auth:api"]], function(){
             Route::get('list', [UserController::class, 'list']);
         });
     });
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('user/create', [UserController::class, 'create']);
-    Route::post('user/delete', [UserController::class, 'delete']);
-    Route::post('user/index', [UserController::class, 'index']);
-    Route::get('user/show', [UserController::class, 'show']);
-    Route::post('user/update', [UserController::class, 'update']);
-    Route::post('document/create', [DocumentController::class, 'add']);
-    Route::group(['middleware'=>["workman:api"]], function(){
-        Route::post('user/client/create', [UserClientController::class, 'store']);
-        Route::get('user/client/show', [UserClientController::class, 'show']);
-        Route::get('user/client/index', [UserClientController::class, 'index']);
-        Route::get('user/client/delete', [UserClientController::class, 'destroy']);
-        Route::post('user/client/update', [UserClientController::class, 'update']);
-        Route::post('user/client/send', [UserClientController::class, 'send']);
+    Route::group(['prefix' => 'document'], function () {
+        Route::post('create', [DocumentController::class, 'create'])->middleware('workman:api');
+        Route::get('delete', [DocumentController::class, 'delete'])->middleware('workman:api');
+        Route::get('show', [DocumentController::class, 'show'])->middleware('workman:api');
+        Route::post('update', [DocumentController::class, 'update'])->middleware('workman:api');
+        Route::get('abort/list', [SendDocumentController::class, 'abortList'])->middleware('workman:api');
+        Route::get('list', [SendDocumentController::class, 'list']);
+        Route::get('send', [SendDocumentController::class, 'send']);
+        Route::get('unsend', [SendDocumentController::class, 'unsend']);
     });
+
+
+
     Route::group(['middleware'=>["chief:api"]], function(){
-        Route::post('chief/client/index', [ChiefController::class, 'index']);
-        Route::post('chief/client/abort', [ChiefController::class, 'abort']);
-        Route::post('chief/client/send', [ChiefController::class, 'send']);
+
+
     });
     Route::group(['middleware'=>["director:api"]], function(){
-        Route::post('director/client/index', [DirectorController::class, 'index']);
-        Route::post('director/client/abort', [DirectorController::class, 'abort']);
-        Route::post('director/client/send', [DirectorController::class, 'send']);
+
+
     });
     Route::group(['middleware'=>["accountant:api"]], function(){
-        Route::post('accountant/client/index', [AccountantController::class, 'index']);
-        Route::post('accountant/client/abort', [AccountantController::class, 'abort']);
-        Route::post('accountant/client/send', [AccountantController::class, 'send']);
+
+
     });
+
+    Route::post('logout', [AuthController::class, 'logout']);
+
 });

@@ -12,15 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
-    public function add(DocumentRequest $request)
+    public function create(DocumentRequest $request)
     {
         DB::beginTransaction();
         try {
             $document = new Document();
-            $document->address = $request->address;
-            $document->name = $request->name;
             $document->user_id = Auth::id();
-            $document->role_id = Auth::user()->role_id;
+            $document->senior_id = Auth::user()->senior_id;
+            $document->title = $request->title;
+            $document->address = $request->address;
             $document->save();
             $document_id = $document->id;
             $products = $request->products;
@@ -31,17 +31,11 @@ class DocumentController extends Controller
             return response()->json(['success' => 'ok']);
         } catch (QueryException $e) {
             DB::rollBack();
-            return response()->json([
-                'error' => [
-                    "message" => $e->getMessage()
-                ]
-            ], 503);
+            return response()->json(['error' => ["message" => $e->getMessage()]], 503);
         }
     }
 
-    public function addProduct(int $document_id, array $data)
-    {
-
+    public function addProduct(int $document_id, array $data){
         $product = new DocumentProduct();
         $product->document_id = $document_id;
         $product->title = $data['title'];
@@ -49,6 +43,45 @@ class DocumentController extends Controller
         $product->price = $data['price'];
         $product->count = $data['count'];
         $product->save();
+    }
 
+    public function update(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $document = Document::findOrFail($request->id);
+           if(!is_null($request->title)) $document->title = $request->title;
+           if(!is_null($request->address))$document->address = $request->address;
+            $document->save();
+            $products = $request->products;
+            $this->deleteProduct($request->id);
+            foreach ($products as $product) {
+                $this->addProduct($request->id,$product);
+            }
+            DB::commit();
+            return response()->json(['success' => 'ok']);
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json(['error' => ["message" => $e->getMessage()]],503);
+        }
+    }
+    public function deleteProduct(int $document_id){
+        DocumentProduct::where('document_id',$document_id)->delete();
+    }
+
+    public function delete(Request $request){
+        $document = Document::findOrFail($request->id);
+        $document->delete();
+        return response()->json(["success"=>"ok"]);
+    }
+
+    public function show(Request $request){
+        return Document::where('id', $request->id)->with('products')->get();
+    }
+
+    public function list(Request $request)
+    {
+        return Document::where('user_id',$request->user_id)->with('products')->paginate($request->per_page);
     }
 }
+

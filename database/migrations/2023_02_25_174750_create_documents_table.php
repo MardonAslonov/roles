@@ -20,7 +20,7 @@ return new class extends Migration
                 ->comment('Boshliq id raqami');
             $table->string('title');
             $table->string('address');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(2);
             $table->string('comment')->nullable();
             $table->foreign('user_id')
                 ->references('id')

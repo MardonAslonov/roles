@@ -9,8 +9,7 @@ class DocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // "title" => "required|string",
-            "name" => "required|string",
+            "title" => "required|string",
             "address" => "required|string",
             "user_id" => "required_if:user_id,true|exists:users,id",
             "role_id" => "required_if:role_id,true|exists:roles,id",
