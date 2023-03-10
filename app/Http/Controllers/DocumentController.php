@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentDeleteRequest;
 use App\Http\Requests\DocumentRequest;
+use App\Http\Requests\DocumentUpdateRequest;
 use App\Models\Document;
 use App\Models\DocumentProduct;
 use Illuminate\Database\QueryException;
@@ -45,7 +47,7 @@ class DocumentController extends Controller
         $product->save();
     }
 
-    public function update(Request $request)
+    public function update(DocumentUpdateRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -68,20 +70,19 @@ class DocumentController extends Controller
     public function deleteProduct(int $document_id){
         DocumentProduct::where('document_id',$document_id)->delete();
     }
-
-    public function delete(Request $request){
+    public function delete(DocumentDeleteRequest $request){
         $document = Document::findOrFail($request->id);
-        $document->delete();
-        return response()->json(["success"=>"ok"]);
+        try{
+            $document->delete();
+            return response()->json(['success' => 'ok']);
+        }catch(QueryException $e){
+            return response()->json(['error' => ["message" => $e->getMessage()]],503);
+        }
     }
-
     public function show(Request $request){
         return Document::where('id', $request->id)->with('products')->get();
     }
-
-    public function list(Request $request)
-    {
+    public function list(Request $request){
         return Document::where('user_id',$request->user_id)->with('products')->paginate($request->per_page);
     }
 }
-
