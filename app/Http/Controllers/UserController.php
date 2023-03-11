@@ -10,18 +10,13 @@ use Illuminate\Database\QueryException;
 // use Doctrine\DBAL\Query\QueryException;
 class UserController extends Controller
 {
-    public function list(Request $request)
-    {
+    public function list(Request $request){
         return User::where('role_id',$request->role_id)->paginate($request->per_page);
     }
-
-    public function show(Request $request)
-    {
+    public function show(Request $request){
         return User::where('id', $request->id)->first();
     }
-
-    public function create(Request $request)
-    {
+    public function create(Request $request){
          $user = new User();
             $user->role_id = $request->input('role_id');
             $user->warehouse_id = $request->input('warehouse_id');
@@ -45,9 +40,7 @@ class UserController extends Controller
         return response()->json(["success"=>"ok"]);
 
     }
-
-    public function update(Request $request)
-    {
+    public function update(Request $request){
        $user = User::findOrFail($request->id);
        if(!is_null($request->role_id)) $user->role_id=$request->role_id;
        if(!is_null($request->warehuose_id)) $user->warehuose_id=$request->warehuose_id;
@@ -69,9 +62,7 @@ class UserController extends Controller
         }
         return response()->json(["success"=>"ok"]);
     }
-
-    public function delete(Request $request)
-    {
+    public function delete(Request $request){
         $user = User::findOrFail($request->id);
         $user->delete();
         return response()->json(["success"=>"ok"]);
