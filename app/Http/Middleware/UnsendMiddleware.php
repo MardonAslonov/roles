@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class DirectorMiddleware
+class UnsendMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class DirectorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id=='4'){
+        if(Auth::user()->role_id=='3' or '4' or '5'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Director'], 401);
+            return response()->json(['error'=>'You are not Workman'], 401);
         };
     }
 }

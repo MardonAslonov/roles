@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AccountantMiddleware
+class SendMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class AccountantMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id=='5'){
+        if(Auth::user()->role_id=='2' or '3' or '4'){
             return $next($request);
         }else{
-            return response()->json(['error'=>'You are not Accountant'], 401);
+            return response()->json(['error'=>'You are not Workman'], 401);
         };
     }
 }

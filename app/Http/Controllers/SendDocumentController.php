@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class SendDocumentController extends Controller
 {
     public function list(){
